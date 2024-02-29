@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <header class="header">
+        <a href="index.html" class="logo">Speech To Text </a>
+        <nav class="navbar">
+            <a href="index.html">Home</a>
+            <a href="lang.html">Language</a><!--idhar par link dalna hai-->
+            <a href="feedback.html">Feedback</a><!--idhar par link dalna hai-->
+        </nav>
+    </header>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: rgb(10, 9, 9);
+            background-image:url("img4.jpeg");
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        }
+
+        .logo {
+            position: relative;
+            left: 50px;
+            font-size: 25px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+
+        }
+
+
+        h1 {
+            text-align: center;
+            color: white;
+        }
+
+        #translation-container {
+            max-width: 800px;
+            margin: 200px auto;
+            padding: 50px;
+            background-color: rgba(0, 0, 0, 0.631);
+            border-radius: 8px;
+            box-shadow: 0 0 100px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            left: -200px;
+            width: 100%;
+            padding: 20px 10%;
+            background: transparent;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #4f54e8;
+            border-radius: 12px;
+            margin-bottom: 10px;
+        }
+
+        .navbar a {
+            font-size: 18px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            margin-left: 35px;
+            transition: 3s;
+            ;
+        }
+
+        .navbar a:hover,
+        .navbar a.active {
+            color: #00abf0;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: rgba(3, 3, 68, 0.639);
+            color: #fff;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #translatedText {
+            margin-top: 20px;
+            color:#fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="translation-container">
+        <h1>Translation Area</h1>
+        <textarea id="inputText" rows="5" placeholder="Enter text to translate..." autofocus></textarea>
+        <div>
+            <button onclick="translateText()">Translate to Hindi</button>
+            <button onclick="translateText('bn')">Translate to Bengali</button>
+            <button onclick="translateText('ur')">Translate to Urdu</button>
+        </div>
+        <div id="translatedText"></div>
+    </div>
+
+    <script>
+        function translateText(targetLanguage = 'hi') {
+            const inputText = document.getElementById('inputText').value;
+            const url = "https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURI(inputText)}";
+
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    const translatedText = data[0][0][0];
+                    document.getElementById('translatedText').innerText = translatedText;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+
+</html>
