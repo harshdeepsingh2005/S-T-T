@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="q.css" />
+    <link
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+      rel="stylesheet"
+    />
+    <script>
+      window.onload = function () {
+        var languages = ["हिंदी", "ਪੰਜਾਬੀ", "বাংলা"];
+        var index = 0;
+        setInterval(function () {
+          document.getElementById("language").innerText = languages[index];
+          index = (index + 1) % languages.length;
+        }, 2000);
+      };
+    </script>
+  </head>
+  <body>
+    <header class="header">
+      <a href="#" class="logo">Speech To Text </a>
+      <nav class="navbar">
+        <a href="#" class="active">Home</a>
+        <a href="#">Language</a><!--idhar par link dalna hai-->
+        <a href="#">Feedback</a><!--idhar par link dalna hai-->
+      </nav>
+    </header>
+    <section class="home">
+      <div class="home-content">
+        <h1>Hi,</h1>
+        <h3>
+          Type with your Voice in
+          <p id="language">English</p>
+        </h3>
+        <p>
+          Use the magic of speech recognition to write emails and documents in
+          Google Chrome. Dictation accurately transcribes your speech to text in
+          real time. You can add paragraphs, punctuation marks, <br />and even
+          smileys using voice commands.
+        </p>
+        <div class="btn-box">
+          <a href="#"> LAUNCH DICTATION</a> <!-- idhar par karna hai-->
+        </div>
+        <div class="home-sci">
+          <a href="https://www.facebook.com"><i class="bx bxl-facebook-circle"></i></a>
+          <a href="https://twitter.com/home"><i class="bx bxl-twitter"></i></a>
+          <a href="https://www.linkedin.com/"><i class="bx bxl-linkedin"></i></a>
+        </div>
+      </div>
+      <span class="home-imghover"></span>
+    </section>
+  </body>
+</html>
