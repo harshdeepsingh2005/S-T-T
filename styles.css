@@ -11,7 +11,7 @@ body, html {
 }
 
 .bg-image{
-    background-image: url("image 2.png");
+    background-image: url("images8.png");
     filter: blur(2px);
     height: 100%;
     background-position: center;
