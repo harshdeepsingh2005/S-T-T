@@ -2,17 +2,21 @@
 <html lang="en">
 
 <head>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
     <header class="header">
         <a href="index.html" class="logo">Speech To Text </a>
         <nav class="navbar">
             <a href="index.html">Home</a>
             <a href="lang.html">Language</a><!--idhar par link dalna hai-->
             <a href="feedback.html">Feedback</a><!--idhar par link dalna hai-->
+
         </nav>
     </header>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translation</title>
+    
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -112,11 +116,13 @@
         <h1>Translation Area</h1>
         <textarea id="inputText" rows="5" placeholder="Enter text to translate..." autofocus readonly></textarea>
         <div>
-            <button onclick="translateText('hi')">Translate to Hindi</button>
-            <button onclick="translateText('bn')">Translate to Bengali</button>
-            <button onclick="translateText('ur')">Translate to Urdu</button>
+            <!-- <button onclick="translateText('hi')">Translate to Hindi</button>
+             <button onclick="translateText('bn')">Translate to Bengali</button>
+             <button onclick="translateText('ur')">Translate to Urdu</button>-->
+         
         </div>
         <div id="translatedText"></div>
+        <button pys-onclick="speech()">say</button>
     </div>
 
     <script>
@@ -132,7 +138,9 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-    </script>
+    </script> 
+    
+         
 </body>
 
 </html>
