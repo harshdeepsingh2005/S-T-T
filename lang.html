@@ -6,21 +6,23 @@
         <a href="index.html" class="logo">Speech To Text </a>
         <nav class="navbar">
             <a href="index.html">Home</a>
-            <a href="lang.html">Language</a><!--idhar par link dalna hai-->
-            <a href="feedback.html">Feedback</a><!--idhar par link dalna hai-->
+            <a href="lang.html">Language</a>
+            <a href="feedback.html">Feedback</a>
         </nav>
     </header>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Translation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-eU5uwUKrx66iZBzEuY0w+XVv8TqrQsDrq6e2iiQn0tObG/JwraVthzVsRZf1p2rj" crossorigin="anonymous">
+
+
     <style>
         body {
-            background: url(images6.png);
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: rgb(10, 9, 9);
-            background-image:url("back2.jpg");
+            background-image: url("back2.jpg");
             background-repeat: no-repeat;
             background-size: cover;
 
@@ -79,7 +81,6 @@
             font-weight: 500;
             margin-left: 35px;
             transition: 3s;
-            ;
         }
 
         .navbar a:hover,
@@ -97,13 +98,40 @@
             transition: background-color 0.3s;
         }
 
-        button:hover {
-            background-color: #0056b3;
-        }
+        
 
         #translatedText {
             margin-top: 20px;
-            color:#fff;
+            color: #fff;
+        }
+
+        #speechButton {
+            display: block;
+            margin: 20px auto;
+        }
+
+        .hidden {
+            display: none;
+        }
+        #speechButton{
+            border-radius: 50%;
+
+        }
+        #speechbutton:hover{
+            background-color: #0056b3;
+        }
+        #img{
+            border-radius: 50%;
+            width:70px;
+            height:70px;
+        }
+        #stopButton{
+            width:80px;
+            height:90px;
+            position: relative;
+            left: 360px;
+            top:-110px;
+            border-radius: 50%;
         }
     </style>
 </head>
@@ -113,56 +141,55 @@
         <h1>Translation Area</h1>
         <textarea id="inputText" rows="5" placeholder="Enter text to translate..." autofocus readonly></textarea>
         <div>
-            <button onclick="translateText('hi')">Translate to Hindi</button>
-            <button onclick="translateText('bn')">Translate to Bengali</button>
-            <button onclick="translateText('ur')">Translate to Urdu</button>
+            
         </div>
         <div id="translatedText"></div>
-        <button id="speechButton">Start Listening</button> <!-- Added speech button here -->
+        <button id="speechButton" onclick="startSpeechRecognition()"><img
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWZnmV8O33h3So3lxyVdfg4GBLALSMHbwLmZD5RlBb7A&s"
+                alt="Microphone" id="img"></button>
+        <button id="stopButton" class="hidden" onclick="stopSpeechRecognition()"></button>
     </div>
 
     <script>
-        const speechButton = document.getElementById('speechButton');
-        const inputText = document.getElementById('inputText');
-        
         let recognition;
+        let isListening = false;
 
-        speechButton.addEventListener('click', () => {
-            if (!recognition) {
-                recognition = new webkitSpeechRecognition() || new SpeechRecognition();
-                recognition.lang = 'en-US'; // Change the language as needed
-                recognition.continuous = true;
-
-                recognition.onresult = (event) => {
-                    const transcript = event.results[event.results.length - 1][0].transcript;
-                    inputText.value += transcript;
-                };
-
-                recognition.onerror = (event) => {
-                    console.error('Speech recognition error:', event.error);
-                };
+        function startSpeechRecognition() {
+            if (isListening) {
+                return;
             }
 
-            if (recognition && recognition.running) {
-                recognition.stop();
-                speechButton.textContent = 'Start Listening';
-            } else {
-                recognition.start();
-                speechButton.textContent = 'Stop Listening';
+            recognition = new window.webkitSpeechRecognition();
+            recognition.lang = 'en-US';
+            recognition.continuous = true;
+            recognition.interimResults = true;
+
+            recognition.onstart = function () {
+                isListening = true;
+                document.getElementById('speechButton').classList.add('hidden');
+                document.getElementById('stopButton').classList.remove('hidden');
+            };
+
+            recognition.onresult = function (event) {
+                const transcript = event.results[event.results.length - 1][0].transcript;
+                document.getElementById('inputText').value = transcript;
+            };
+
+            recognition.onend = function () {
+                isListening = false;
+                document.getElementById('speechButton').classList.remove('hidden');
+                document.getElementById('stopButton').classList.add('hidden');
+            };
+
+            recognition.start();
+        }
+
+        function stopSpeechRecognition() {
+            if (!isListening) {
+                return;
             }
-        });
 
-        function translateText(targetLanguage = 'hi') {
-            const inputTextValue = inputText.value;
-            const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${targetLanguage}&dt=t&q=${encodeURI(inputTextValue)}`;
-
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    const translatedText = data[0][0][0];
-                    document.getElementById('translatedText').innerText = translatedText;
-                })
-                .catch(error => console.error('Error:', error));
+            recognition.stop();
         }
     </script>
 </body>
